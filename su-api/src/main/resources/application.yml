@@ -1,0 +1,16 @@
+spring:
+  h2:
+    console:
+      enabled: true
+  datasource:
+    generate-unique-name: false
+    name: student
+    password: test1234
+    username: test
+  jpa:
+    show-sql: true
+
+server:
+  error:
+    include-message: always
+    include-binding-errors: always
