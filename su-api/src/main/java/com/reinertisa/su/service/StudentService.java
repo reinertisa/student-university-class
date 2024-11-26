@@ -5,9 +5,11 @@ import com.reinertisa.su.model.StudentDto;
 import com.reinertisa.su.model.StudentRequest;
 import jakarta.validation.Valid;
 
+import java.util.List;
+
 public interface StudentService {
 
-    StudentDto getAllStudents();
+    List<StudentDto> getAllStudents();
 
     StudentDto getStudentById(Long studentId) throws ResourceNotFoundException;
 
