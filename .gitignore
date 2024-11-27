@@ -1,1 +1,21 @@
+# See https://help.github.com/articles/ignoring-files/ for more about ignoring files.
+
 *.iml
+
+# External tools
+.pnp.*
+.yarn/*
+**/.yarn/*
+!.yarn/patches
+!.yarn/plugins
+!.yarn/releases
+!.yarn/sdks
+!.yarn/versions
+node_modules/
+
+
+# Temporary files
+.DS_Store
+._.DS_Store
+*/coverage/
+/build/
