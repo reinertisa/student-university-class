@@ -4171,6 +4171,15 @@ __metadata:
   languageName: node
   linkType: hard
 
+"bootstrap@npm:^5.3.3":
+  version: 5.3.3
+  resolution: "bootstrap@npm:5.3.3"
+  peerDependencies:
+    "@popperjs/core": ^2.11.8
+  checksum: 10c0/bb68ca7b763977b9cce40cb5b8c676ae19a716d2f5d15009fa7bdbcec9dea426968e3cb748fbed7592fbf10edd7c749aea841c2920996a7c1aa5e0a6e2d4c2ad
+  languageName: node
+  linkType: hard
+
 "brace-expansion@npm:^1.1.7":
   version: 1.1.11
   resolution: "brace-expansion@npm:1.1.11"
@@ -4470,6 +4479,13 @@ __metadata:
     strip-ansi: "npm:^6.0.0"
     wrap-ansi: "npm:^7.0.0"
   checksum: 10c0/6035f5daf7383470cef82b3d3db00bec70afb3423538c50394386ffbbab135e26c3689c41791f911fa71b62d13d3863c712fdd70f0fbdffd938a1e6fd09aac00
+  languageName: node
+  linkType: hard
+
+"clsx@npm:^2.1.1":
+  version: 2.1.1
+  resolution: "clsx@npm:2.1.1"
+  checksum: 10c0/c4c8eb865f8c82baab07e71bfa8897c73454881c4f99d6bc81585aecd7c441746c1399d08363dc096c550cceaf97bd4ce1e8854e1771e9998d9f94c4fe075839
   languageName: node
   linkType: hard
 
@@ -12303,6 +12319,10 @@ __metadata:
     "@testing-library/jest-dom": "npm:^5.14.1"
     "@testing-library/react": "npm:^13.0.0"
     "@testing-library/user-event": "npm:^13.2.1"
+    bootstrap: "npm:^5.3.3"
+    clsx: "npm:^2.1.1"
+    lodash: "npm:^4.17.21"
+    prop-types: "npm:^15.8.1"
     react: "npm:^18.3.1"
     react-dom: "npm:^18.3.1"
     react-hook-form: "npm:^7.53.2"
