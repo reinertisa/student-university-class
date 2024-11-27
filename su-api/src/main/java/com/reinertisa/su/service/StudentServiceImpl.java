@@ -31,10 +31,10 @@ public class StudentServiceImpl implements StudentService {
     }
 
     @Override
-    public StudentDto getStudentById(Long studentId) throws ResourceNotFoundException {
+    public StudentDto getStudentByStudentId(String studentId) throws ResourceNotFoundException {
         Objects.requireNonNull(studentId, "This field is required.");
         return studentRepository
-                .findById(studentId)
+                .findByStudentId(studentId)
                 .map(studentMapper)
                 .orElseThrow(() -> new ResourceNotFoundException("Student not found for ID: " + studentId));
     }
@@ -49,11 +49,11 @@ public class StudentServiceImpl implements StudentService {
     }
 
     @Override @Transactional
-    public void updateStudent(Long studentId, @Valid StudentRequest studentRequest) throws ResourceNotFoundException {
+    public void updateStudent(String studentId, @Valid StudentRequest studentRequest) throws ResourceNotFoundException {
         Objects.requireNonNull(studentId, "This field is required.");
         Objects.requireNonNull(studentRequest, "Student request must not be null.");
 
-        Student student = studentRepository.findById(studentId)
+        Student student = studentRepository.findByStudentId(studentId)
                 .orElseThrow(() -> new ResourceNotFoundException("Student not found for ID: " + studentId));
 
         Optional.ofNullable(studentRequest.getName())
@@ -66,10 +66,10 @@ public class StudentServiceImpl implements StudentService {
     }
 
     @Override @Transactional
-    public void deleteStudent(Long studentId) throws ResourceNotFoundException {
+    public void deleteStudent(String studentId) throws ResourceNotFoundException {
         Objects.requireNonNull(studentId, "This field is required.");
 
-        Student student = studentRepository.findById(studentId)
+        Student student = studentRepository.findByStudentId(studentId)
                 .orElseThrow(() -> new ResourceNotFoundException("Student not found for ID: " + studentId));
 
         studentRepository.delete(student);

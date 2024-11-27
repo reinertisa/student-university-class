@@ -19,8 +19,8 @@ public class Student {
     @Column(nullable = false)
     private String name;
 
-    @Column(nullable = false)
-    private Integer studentId;
+    @Column(nullable = false, unique = true, length = 10)
+    private String studentId;
 
     @ManyToMany(fetch = FetchType.LAZY, cascade = CascadeType.MERGE)
     @JoinTable(name = "student_university_class",

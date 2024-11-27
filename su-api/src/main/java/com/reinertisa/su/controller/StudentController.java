@@ -31,9 +31,9 @@ public class StudentController {
 
     @GetMapping(value = "/{sid}")
     @ResponseStatus(HttpStatus.OK)
-    public ResponseEntity<StudentDto> getStudentById(@PathVariable(name = "sid") Long id) {
+    public ResponseEntity<StudentDto> getStudentById(@PathVariable(name = "sid") String studentId) {
         try {
-            return ResponseEntity.ok().body(studentServiceImpl.getStudentById(id));
+            return ResponseEntity.ok().body(studentServiceImpl.getStudentByStudentId(studentId));
         } catch (ResourceNotFoundException ex) {
             throw new ResponseStatusException(HttpStatus.NOT_FOUND, ex.getMessage(), ex);
         } catch (Exception ex) {
@@ -53,9 +53,9 @@ public class StudentController {
 
     @PutMapping(value = "/{sid}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
-    public void updateStudent(@PathVariable(name = "sid") Long id, @RequestBody @Valid StudentRequest studentRequest) {
+    public void updateStudent(@PathVariable(name = "sid") String studentId, @RequestBody @Valid StudentRequest studentRequest) {
         try {
-            studentServiceImpl.updateStudent(id, studentRequest);
+            studentServiceImpl.updateStudent(studentId, studentRequest);
         } catch (ResourceNotFoundException ex) {
             throw new ResponseStatusException(HttpStatus.NOT_FOUND, ex.getMessage(), ex);
         } catch (Exception ex) {
@@ -65,9 +65,9 @@ public class StudentController {
 
     @DeleteMapping(value = "/{sid}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
-    public void deleteStudent(@PathVariable(value = "sid") Long id) {
+    public void deleteStudent(@PathVariable(value = "sid") String studentId) {
         try {
-            studentServiceImpl.deleteStudent(id);
+            studentServiceImpl.deleteStudent(studentId);
         } catch (ResourceNotFoundException ex) {
             throw new ResponseStatusException(HttpStatus.NOT_FOUND, ex.getMessage(), ex);
         } catch (Exception ex) {

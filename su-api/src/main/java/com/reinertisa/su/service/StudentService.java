@@ -11,11 +11,11 @@ public interface StudentService {
 
     List<StudentDto> getAllStudents();
 
-    StudentDto getStudentById(Long studentId) throws ResourceNotFoundException;
+    StudentDto getStudentByStudentId(String studentId) throws ResourceNotFoundException;
 
     void createStudent(@Valid StudentRequest studentRequest);
 
-    void updateStudent(Long studentId, @Valid StudentRequest studentRequest) throws ResourceNotFoundException;
+    void updateStudent(String studentId, @Valid StudentRequest studentRequest) throws ResourceNotFoundException;
 
-    void deleteStudent(Long studentId) throws ResourceNotFoundException;
+    void deleteStudent(String studentId) throws ResourceNotFoundException;
 }
