@@ -40,12 +40,18 @@ public class StudentServiceImpl implements StudentService {
     }
 
     @Override @Transactional
-    public void createStudent(@Valid StudentRequest studentRequest) {
-        studentRepository.save(
-                Student.builder()
-                        .name(studentRequest.getName())
-                        .studentId(studentRequest.getStudentId())
-                        .build());
+    public StudentDto createStudent(@Valid StudentRequest studentRequest) throws ResourceNotFoundException {
+        Student student = Student.builder()
+                .name(studentRequest.getName())
+                .studentId(studentRequest.getStudentId())
+                .universityClasses(studentRequest.getUniversityClasses())
+                .build();
+        studentRepository.save(student);
+
+        return studentRepository
+                .findById(student.getId())
+                .map(studentMapper)
+                .orElseThrow(() -> new ResourceNotFoundException("Student not found for ID: " + studentRequest.getStudentId()));
     }
 
     @Override @Transactional

@@ -13,7 +13,7 @@ public interface StudentService {
 
     StudentDto getStudentByStudentId(String studentId) throws ResourceNotFoundException;
 
-    void createStudent(@Valid StudentRequest studentRequest);
+    StudentDto createStudent(@Valid StudentRequest studentRequest) throws ResourceNotFoundException;
 
     void updateStudent(String studentId, @Valid StudentRequest studentRequest) throws ResourceNotFoundException;
 
