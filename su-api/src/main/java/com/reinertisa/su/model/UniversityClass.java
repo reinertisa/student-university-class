@@ -1,6 +1,6 @@
 package com.reinertisa.su.model;
 
-import com.fasterxml.jackson.annotation.JsonManagedReference;
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -29,8 +29,8 @@ public class UniversityClass {
     @Column(nullable = false)
     private String description;
 
-    @JsonManagedReference
-    @ManyToMany(mappedBy = "universityClasses", fetch = FetchType.EAGER)
+    @JsonBackReference
+    @ManyToMany(mappedBy = "universityClasses", fetch = FetchType.LAZY)
     private Set<Student> students = new HashSet<>();
 
 }

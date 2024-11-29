@@ -22,10 +22,10 @@ public class Student {
     @Column(nullable = false, unique = true, length = 10)
     private String studentId;
 
-    @ManyToMany(fetch = FetchType.LAZY, cascade = CascadeType.MERGE)
-    @JoinTable(name = "student_university_class",
-            joinColumns = {@JoinColumn(name = "student_id")},
-            inverseJoinColumns = {@JoinColumn(name = "university_class_id")})
+    @ManyToMany(cascade = {CascadeType.DETACH, CascadeType.MERGE, CascadeType.PERSIST, CascadeType.REFRESH})
+    @JoinTable(name = "studentUniversityClassAssoc",
+            joinColumns = {@JoinColumn(name = "studentId")},
+            inverseJoinColumns = {@JoinColumn(name = "universityClassId")})
     private Set<UniversityClass> universityClasses = new HashSet<>();
 
 }

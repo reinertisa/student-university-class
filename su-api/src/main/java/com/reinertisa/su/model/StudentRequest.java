@@ -5,6 +5,8 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.Setter;
 
+import java.util.Set;
+
 @Getter @Setter
 @Builder
 public class StudentRequest {
@@ -14,4 +16,6 @@ public class StudentRequest {
     @NotBlank(message = "This field is required.")
     private String studentId;
 
+    private Set<UniversityClass> universityClasses;
 }
+
