@@ -15,25 +15,24 @@ import java.util.List;
 
 @RestController
 @RequiredArgsConstructor
+@CrossOrigin
 @RequestMapping("/api/v1/students")
 public class StudentController {
     private final StudentServiceImpl studentServiceImpl;
 
-    @GetMapping(value = "")
-    @ResponseStatus(HttpStatus.OK)
+    @GetMapping
     public ResponseEntity<List<StudentDto>> getAllStudents() {
         try {
-            return ResponseEntity.ok().body(studentServiceImpl.getAllStudents());
+            return ResponseEntity.status(HttpStatus.OK).body(studentServiceImpl.getAllStudents());
         } catch (Exception ex) {
             throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR, ex.getMessage(), ex);
         }
     }
 
     @GetMapping(value = "/{sid}")
-    @ResponseStatus(HttpStatus.OK)
     public ResponseEntity<StudentDto> getStudentById(@PathVariable(name = "sid") String studentId) {
         try {
-            return ResponseEntity.ok().body(studentServiceImpl.getStudentByStudentId(studentId));
+            return ResponseEntity.status(HttpStatus.OK).body(studentServiceImpl.getStudentByStudentId(studentId));
         } catch (ResourceNotFoundException ex) {
             throw new ResponseStatusException(HttpStatus.NOT_FOUND, ex.getMessage(), ex);
         } catch (Exception ex) {
@@ -41,21 +40,20 @@ public class StudentController {
         }
     }
 
-    @PostMapping(value = "")
-    @ResponseStatus(HttpStatus.CREATED)
-    public void createStudent(@RequestBody @Valid StudentRequest studentRequest) {
+    @PostMapping
+    public ResponseEntity<StudentDto> createStudent(@RequestBody @Valid StudentRequest studentRequest) {
         try {
-            studentServiceImpl.createStudent(studentRequest);
+            return ResponseEntity.status(HttpStatus.CREATED).body(studentServiceImpl.createStudent(studentRequest));
         } catch (Exception ex) {
             throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR, ex.getMessage(), ex);
         }
     }
 
     @PutMapping(value = "/{sid}")
-    @ResponseStatus(HttpStatus.NO_CONTENT)
-    public void updateStudent(@PathVariable(name = "sid") String studentId, @RequestBody @Valid StudentRequest studentRequest) {
+    public ResponseEntity<Void> updateStudent(@PathVariable(name = "sid") String studentId, @RequestBody @Valid StudentRequest studentRequest) {
         try {
             studentServiceImpl.updateStudent(studentId, studentRequest);
+            return ResponseEntity.status(HttpStatus.NO_CONTENT).body(null);
         } catch (ResourceNotFoundException ex) {
             throw new ResponseStatusException(HttpStatus.NOT_FOUND, ex.getMessage(), ex);
         } catch (Exception ex) {
@@ -64,10 +62,10 @@ public class StudentController {
     }
 
     @DeleteMapping(value = "/{sid}")
-    @ResponseStatus(HttpStatus.NO_CONTENT)
-    public void deleteStudent(@PathVariable(value = "sid") String studentId) {
+    public ResponseEntity<Void> deleteStudent(@PathVariable(value = "sid") String studentId) {
         try {
             studentServiceImpl.deleteStudent(studentId);
+            return ResponseEntity.status(HttpStatus.NO_CONTENT).body(null);
         } catch (ResourceNotFoundException ex) {
             throw new ResponseStatusException(HttpStatus.NOT_FOUND, ex.getMessage(), ex);
         } catch (Exception ex) {
