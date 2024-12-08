@@ -6,7 +6,7 @@ import lombok.*;
 import java.util.HashSet;
 import java.util.Set;
 
-@Getter @Setter @Builder
+@Data @Builder
 @AllArgsConstructor @NoArgsConstructor
 @Entity
 @Table(name = "students")
@@ -19,8 +19,11 @@ public class Student {
     @Column(nullable = false)
     private String name;
 
-    @Column(nullable = false, unique = true, length = 10)
+    @Column(nullable = false)
     private String studentId;
+
+    @Column(nullable = false)
+    private String email;
 
     @ManyToMany(cascade = {CascadeType.DETACH, CascadeType.MERGE, CascadeType.PERSIST, CascadeType.REFRESH})
     @JoinTable(name = "studentUniversityClassAssoc",

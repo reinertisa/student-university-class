@@ -11,7 +11,13 @@ import java.util.Set;
 @AllArgsConstructor
 public class StudentDto {
     private Long id;
+
     private String name;
+
     private String studentId;
+
+    private String email;
+
     private Set<UniversityClass> universityClasses;
+
 }
