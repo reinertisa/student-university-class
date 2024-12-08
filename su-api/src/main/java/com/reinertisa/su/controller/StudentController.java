@@ -29,12 +29,10 @@ public class StudentController {
         }
     }
 
-    @GetMapping(value = "/{sid}")
-    public ResponseEntity<StudentDto> getStudentById(@PathVariable(name = "sid") String studentId) {
+    @GetMapping("/{id}")
+    public ResponseEntity<StudentDto> getStudentById(@PathVariable(name = "id") String studentId) {
         try {
             return ResponseEntity.status(HttpStatus.OK).body(studentServiceImpl.getStudentByStudentId(studentId));
-        } catch (ResourceNotFoundException ex) {
-            throw new ResponseStatusException(HttpStatus.NOT_FOUND, ex.getMessage(), ex);
         } catch (Exception ex) {
             throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR, ex.getMessage(), ex);
         }
@@ -49,25 +47,22 @@ public class StudentController {
         }
     }
 
-    @PutMapping(value = "/{sid}")
-    public ResponseEntity<Void> updateStudent(@PathVariable(name = "sid") String studentId, @RequestBody @Valid StudentRequest studentRequest) {
+    @PutMapping("/{id}")
+    public ResponseEntity<StudentDto> updateStudent(@PathVariable(name = "id") String studentId,
+                                              @RequestBody @Valid StudentRequest studentRequest) {
         try {
             studentServiceImpl.updateStudent(studentId, studentRequest);
             return ResponseEntity.status(HttpStatus.NO_CONTENT).body(null);
-        } catch (ResourceNotFoundException ex) {
-            throw new ResponseStatusException(HttpStatus.NOT_FOUND, ex.getMessage(), ex);
         } catch (Exception ex) {
             throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR, ex.getMessage(), ex);
         }
     }
 
-    @DeleteMapping(value = "/{sid}")
-    public ResponseEntity<Void> deleteStudent(@PathVariable(value = "sid") String studentId) {
+    @DeleteMapping("/{id}")
+    public ResponseEntity<Void> deleteStudent(@PathVariable(value = "id") String studentId) {
         try {
             studentServiceImpl.deleteStudent(studentId);
             return ResponseEntity.status(HttpStatus.NO_CONTENT).body(null);
-        } catch (ResourceNotFoundException ex) {
-            throw new ResponseStatusException(HttpStatus.NOT_FOUND, ex.getMessage(), ex);
         } catch (Exception ex) {
             throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR, ex.getMessage(), ex);
         }
