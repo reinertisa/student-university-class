@@ -1,5 +1,6 @@
 package com.reinertisa.su.service;
 
+import com.reinertisa.su.exception.AlreadyExistsException;
 import com.reinertisa.su.exception.ResourceNotFoundException;
 import com.reinertisa.su.model.StudentDto;
 import com.reinertisa.su.model.StudentRequest;
@@ -13,9 +14,11 @@ public interface StudentService {
 
     StudentDto getStudentByStudentId(String studentId) throws ResourceNotFoundException;
 
-    StudentDto createStudent(@Valid StudentRequest studentRequest) throws ResourceNotFoundException;
+    StudentDto createStudent(@Valid StudentRequest studentRequest)
+            throws ResourceNotFoundException, AlreadyExistsException;
 
-    void updateStudent(String studentId, @Valid StudentRequest studentRequest) throws ResourceNotFoundException;
+    StudentDto updateStudent(String studentId, @Valid StudentRequest studentRequest)
+            throws ResourceNotFoundException, AlreadyExistsException;
 
     void deleteStudent(String studentId) throws ResourceNotFoundException;
 }

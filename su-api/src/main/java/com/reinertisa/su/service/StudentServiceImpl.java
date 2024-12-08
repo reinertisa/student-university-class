@@ -1,5 +1,6 @@
 package com.reinertisa.su.service;
 
+import com.reinertisa.su.exception.AlreadyExistsException;
 import com.reinertisa.su.exception.ResourceNotFoundException;
 import com.reinertisa.su.model.Student;
 import com.reinertisa.su.model.StudentDto;
@@ -40,27 +41,47 @@ public class StudentServiceImpl implements StudentService {
     }
 
     @Override @Transactional
-    public StudentDto createStudent(@Valid StudentRequest studentRequest) throws ResourceNotFoundException {
+    public StudentDto createStudent(@Valid StudentRequest studentRequest) throws AlreadyExistsException {
+
+        Optional<Student> existStudent = studentRepository.findByStudentId(studentRequest.getStudentId());
+        if (existStudent.isPresent()) {
+            throw new AlreadyExistsException(String.format("This student id %s already exists.",
+                    existStudent.get().getStudentId()), "studentId");
+        }
+
+        existStudent = studentRepository.findByEmail(studentRequest.getEmail());
+        if (existStudent.isPresent()) {
+            throw new AlreadyExistsException(String.format("This email %s already exists.",
+                    existStudent.get().getEmail()), "email");
+        }
+
         Student student = Student.builder()
                 .name(studentRequest.getName())
                 .studentId(studentRequest.getStudentId())
+                .email(studentRequest.getEmail())
                 .universityClasses(studentRequest.getUniversityClasses())
                 .build();
         studentRepository.save(student);
 
-        return studentRepository
-                .findById(student.getId())
-                .map(studentMapper)
-                .orElseThrow(() -> new ResourceNotFoundException("Student not found for ID: " + studentRequest.getStudentId()));
+       return studentMapper.apply(student);
     }
 
     @Override @Transactional
-    public void updateStudent(String studentId, @Valid StudentRequest studentRequest) throws ResourceNotFoundException {
+    public StudentDto updateStudent(String studentId, @Valid StudentRequest studentRequest)
+            throws ResourceNotFoundException, AlreadyExistsException {
         Objects.requireNonNull(studentId, "This field is required.");
         Objects.requireNonNull(studentRequest, "Student request must not be null.");
 
         Student student = studentRepository.findByStudentId(studentId)
                 .orElseThrow(() -> new ResourceNotFoundException("Student not found for ID: " + studentId));
+
+        if (!student.getEmail().equals(studentRequest.getEmail())) {
+            Optional<Student> existStudent = studentRepository.findByEmail(studentRequest.getEmail());
+            if (existStudent.isPresent()) {
+                throw new AlreadyExistsException(String.format("This email %s used. Please use different email",
+                        existStudent.get().getEmail()), "email");
+            }
+        }
 
         Optional.ofNullable(studentRequest.getName())
                 .ifPresent(student::setName);
@@ -69,6 +90,7 @@ public class StudentServiceImpl implements StudentService {
 
         studentRepository.save(student);
 
+        return studentMapper.apply(student);
     }
 
     @Override @Transactional
