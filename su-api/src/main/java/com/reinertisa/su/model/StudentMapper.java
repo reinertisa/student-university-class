@@ -13,6 +13,7 @@ public class StudentMapper implements Function<Student, StudentDto> {
                 .id(student.getId())
                 .name(student.getName())
                 .studentId(student.getStudentId())
+                .email(student.getEmail())
                 .universityClasses(student.getUniversityClasses())
                 .build();
     }
