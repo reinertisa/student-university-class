@@ -1,6 +1,5 @@
 package com.reinertisa.su.controller;
 
-import com.reinertisa.su.exception.ResourceNotFoundException;
 import com.reinertisa.su.model.StudentDto;
 import com.reinertisa.su.model.StudentRequest;
 import com.reinertisa.su.service.StudentServiceImpl;
@@ -51,8 +50,8 @@ public class StudentController {
     public ResponseEntity<StudentDto> updateStudent(@PathVariable(name = "id") String studentId,
                                               @RequestBody @Valid StudentRequest studentRequest) {
         try {
-            studentServiceImpl.updateStudent(studentId, studentRequest);
-            return ResponseEntity.status(HttpStatus.NO_CONTENT).body(null);
+            StudentDto student = studentServiceImpl.updateStudent(studentId, studentRequest);
+            return ResponseEntity.status(HttpStatus.OK).body(student);
         } catch (Exception ex) {
             throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR, ex.getMessage(), ex);
         }
