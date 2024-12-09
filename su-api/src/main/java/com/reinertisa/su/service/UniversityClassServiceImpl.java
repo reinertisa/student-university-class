@@ -43,7 +43,7 @@ public class UniversityClassServiceImpl implements UniversityClassService {
     }
 
     @Override @Transactional
-    public void createUniversityClass(@Valid UniversityClassRequest universityClassRequest) {
+    public UniversityClassDto createUniversityClass(@Valid UniversityClassRequest universityClassRequest) {
         UniversityClass universityClass = UniversityClass.builder()
                 .name(universityClassRequest.getName())
                 .courseId(universityClassRequest.getCourseId())
@@ -52,10 +52,11 @@ public class UniversityClassServiceImpl implements UniversityClassService {
                 .build();
 
         universityClassRepository.save(universityClass);
+        return universityClassMapper.apply(universityClass);
     }
 
     @Override @Transactional
-    public void updateUniversityClass(Long universityClassId, UniversityClassRequest universityClassRequest)
+    public UniversityClassDto updateUniversityClass(Long universityClassId, UniversityClassRequest universityClassRequest)
             throws ResourceNotFoundException {
         Objects.requireNonNull(universityClassId, "University class ID must not be null.");
         Objects.requireNonNull(universityClassRequest, "University class request must not be null.");
@@ -69,6 +70,8 @@ public class UniversityClassServiceImpl implements UniversityClassService {
         updateUniversityClassRequest(universityClass, universityClassRequest);
 
         universityClassRepository.save(universityClass);
+
+        return universityClassMapper.apply(universityClass);
     }
 
     private void validateUniversityClassRequest(UniversityClassRequest universityClassRequest) {

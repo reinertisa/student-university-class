@@ -13,9 +13,9 @@ public interface UniversityClassService {
 
     UniversityClassDto getUniversityClassById(Long universityClassId) throws ResourceNotFoundException;
 
-    void createUniversityClass(@Valid UniversityClassRequest universityClassRequest);
+    UniversityClassDto createUniversityClass(@Valid UniversityClassRequest universityClassRequest);
 
-    void updateUniversityClass(Long universityClassId, @Valid UniversityClassRequest universityClassRequest)
+    UniversityClassDto updateUniversityClass(Long universityClassId, @Valid UniversityClassRequest universityClassRequest)
             throws ResourceNotFoundException;
 
     void deleteUniversityClass(Long universityClassId) throws ResourceNotFoundException;
