@@ -1,6 +1,5 @@
 package com.reinertisa.su.controller;
 
-import com.reinertisa.su.exception.ResourceNotFoundException;
 import com.reinertisa.su.model.UniversityClassDto;
 import com.reinertisa.su.model.UniversityClassRequest;
 import com.reinertisa.su.service.UniversityClassServiceImpl;
@@ -15,64 +14,59 @@ import java.util.List;
 
 @RestController
 @RequiredArgsConstructor
-@RequestMapping(value = "/api/v1/universityClass")
+@RequestMapping(value = "/api/v1/universityClasses")
 public class UniversityClassController {
 
     private final UniversityClassServiceImpl universityClassService;
     private final UniversityClassServiceImpl universityClassServiceImpl;
 
-    @GetMapping(value = "")
-    @ResponseStatus(HttpStatus.OK)
+    @GetMapping
     public ResponseEntity<List<UniversityClassDto>> getAllUniversityClasses() {
         try {
-            return ResponseEntity.ok().body(universityClassService.getAllUniversityClasses());
+            return ResponseEntity.status(HttpStatus.OK).body(universityClassService.getAllUniversityClasses());
         } catch (Exception ex) {
             throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR, ex.getMessage(), ex);
         }
     }
 
-    @GetMapping(value = "/{uid}")
-    @ResponseStatus(HttpStatus.OK)
-    public ResponseEntity<UniversityClassDto> getUniversityById(@PathVariable("uid") Long id) {
+    @GetMapping("/{id}")
+    public ResponseEntity<UniversityClassDto> getUniversityById(@PathVariable("id") Long id) {
         try {
-            return ResponseEntity.ok().body(universityClassService.getUniversityClassById(id));
-        } catch (ResourceNotFoundException ex) {
-            throw new ResponseStatusException(HttpStatus.NOT_FOUND, ex.getMessage(), ex);
+            return ResponseEntity.status(HttpStatus.OK).body(universityClassService.getUniversityClassById(id));
         } catch (Exception ex) {
             throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR, ex.getMessage(), ex);
         }
     }
 
-    @PostMapping(value = "")
-    @ResponseStatus(HttpStatus.CREATED)
-    public void createUniversityClass(@Valid @RequestBody UniversityClassRequest universityClassRequest) {
+    @PostMapping
+    public ResponseEntity<UniversityClassDto> createUniversityClass(
+            @Valid @RequestBody UniversityClassRequest universityClassRequest) {
         try {
-            universityClassServiceImpl.createUniversityClass(universityClassRequest);
+            UniversityClassDto universityClassDto = universityClassServiceImpl
+                    .createUniversityClass(universityClassRequest);
+            return ResponseEntity.status(HttpStatus.CREATED).body(universityClassDto);
         } catch (Exception ex) {
             throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR, ex.getMessage(), ex);
         }
     }
 
-    @PutMapping(value = "/{uid}")
-    @ResponseStatus(HttpStatus.NO_CONTENT)
-    public void updateUniversityClass(@PathVariable(name = "uid") Long id,
-                                      @Valid @RequestBody UniversityClassRequest universityClassRequest) {
+    @PutMapping("/{id}")
+    public ResponseEntity<UniversityClassDto> updateUniversityClass(@PathVariable(name = "id") Long id,
+                                            @Valid @RequestBody UniversityClassRequest universityClassRequest) {
         try {
-            universityClassServiceImpl.updateUniversityClass(id, universityClassRequest);
-        } catch (ResourceNotFoundException ex) {
-            throw new ResponseStatusException(HttpStatus.NOT_FOUND, ex.getMessage(), ex);
+            UniversityClassDto universityClassDto = universityClassServiceImpl
+                    .updateUniversityClass(id, universityClassRequest);
+            return ResponseEntity.status(HttpStatus.OK).body(universityClassDto);
         } catch (Exception ex) {
             throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR, ex.getMessage(), ex);
         }
     }
 
     @DeleteMapping(value = "/{uid}")
-    @ResponseStatus(HttpStatus.NO_CONTENT)
-    public void deleteUniversityClass(@PathVariable("uid") Long id) {
+    public ResponseEntity<Void> deleteUniversityClass(@PathVariable("uid") Long id) {
         try {
             universityClassServiceImpl.deleteUniversityClass(id);
-        } catch (ResourceNotFoundException ex) {
-            throw new ResponseStatusException(HttpStatus.NOT_FOUND, ex.getMessage(), ex);
+            return ResponseEntity.status(HttpStatus.NO_CONTENT).body(null);
         } catch (Exception ex) {
             throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR, ex.getMessage(), ex);
         }
