@@ -8,7 +8,6 @@ import com.reinertisa.su.model.UniversityClassRequest;
 import com.reinertisa.su.repository.UniversityClassRepository;
 import jakarta.transaction.Transactional;
 import jakarta.validation.Valid;
-import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -18,18 +17,20 @@ import java.util.function.Consumer;
 import java.util.function.Supplier;
 
 @Service
-@RequiredArgsConstructor
 public class UniversityClassServiceImpl implements UniversityClassService {
 
     private final UniversityClassRepository universityClassRepository;
     private final UniversityClassMapper universityClassMapper;
 
+    public UniversityClassServiceImpl(UniversityClassRepository universityClassRepository,
+                                      UniversityClassMapper universityClassMapper) {
+        this.universityClassRepository = universityClassRepository;
+        this.universityClassMapper = universityClassMapper;
+    }
+
     @Override
     public List<UniversityClassDto> getAllUniversityClasses() {
-        return universityClassRepository.findAll()
-                .stream()
-                .map(universityClassMapper)
-                .toList();
+        return universityClassMapper.toDtoListFromEntityList(universityClassRepository.findAll());
     }
 
     @Override
@@ -37,25 +38,20 @@ public class UniversityClassServiceImpl implements UniversityClassService {
         Objects.requireNonNull(universityClassId);
 
         return universityClassRepository.findById(universityClassId)
-                .map(universityClassMapper)
+                .map(universityClassMapper::toDtoFromEntity)
                 .orElseThrow(() -> new ResourceNotFoundException("University class not found for this ID: " +
                         universityClassId));
     }
 
-    @Override @Transactional
+    @Override
+    @Transactional
     public UniversityClassDto createUniversityClass(@Valid UniversityClassRequest universityClassRequest) {
-        UniversityClass universityClass = UniversityClass.builder()
-                .name(universityClassRequest.getName())
-                .courseId(universityClassRequest.getCourseId())
-                .professor(universityClassRequest.getProfessor())
-                .description(universityClassRequest.getDescription())
-                .build();
-
-        universityClassRepository.save(universityClass);
-        return universityClassMapper.apply(universityClass);
+        UniversityClass universityClass = universityClassMapper.toEntityFromRequest(universityClassRequest);
+        return universityClassMapper.toDtoFromEntity(universityClassRepository.save(universityClass));
     }
 
-    @Override @Transactional
+    @Override
+    @Transactional
     public UniversityClassDto updateUniversityClass(Long universityClassId, UniversityClassRequest universityClassRequest)
             throws ResourceNotFoundException {
         Objects.requireNonNull(universityClassId, "University class ID must not be null.");
@@ -69,13 +65,12 @@ public class UniversityClassServiceImpl implements UniversityClassService {
 
         updateUniversityClassRequest(universityClass, universityClassRequest);
 
-        universityClassRepository.save(universityClass);
-
-        return universityClassMapper.apply(universityClass);
+        return universityClassMapper.toDtoFromEntity(universityClassRepository.save(universityClass));
     }
 
     private void validateUniversityClassRequest(UniversityClassRequest universityClassRequest) {
-        String name = Objects.requireNonNull(universityClassRequest.getName(), "Name must not be null.");
+        String name = Objects.requireNonNull(universityClassRequest.getUniversityClassName(),
+                "Name must not be null.");
         String professor = Objects.requireNonNull(universityClassRequest.getProfessor(),
                 "Professor must not be null.");
 
@@ -90,7 +85,7 @@ public class UniversityClassServiceImpl implements UniversityClassService {
 
     private void updateUniversityClassRequest(UniversityClass universityClass, UniversityClassRequest
             universityClassRequest) {
-        updateIfNotNull(universityClassRequest::getName, universityClass::setName);
+        updateIfNotNull(universityClassRequest::getUniversityClassName, universityClass::setName);
         updateIfNotNull(universityClassRequest::getProfessor, universityClass::setProfessor);
         updateIfNotNull(universityClassRequest::getCourseId, universityClass::setCourseId);
         updateIfNotNull(universityClassRequest::getDescription, universityClass::setDescription);

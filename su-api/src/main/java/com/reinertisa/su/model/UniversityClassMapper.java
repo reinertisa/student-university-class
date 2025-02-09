@@ -1,21 +1,23 @@
 package com.reinertisa.su.model;
 
-import org.springframework.stereotype.Component;
 
-import java.util.function.Function;
+import org.mapstruct.Mapper;
+import org.mapstruct.Mapping;
+import org.mapstruct.Mappings;
 
-@Component
-public class UniversityClassMapper implements Function<UniversityClass, UniversityClassDto> {
+import java.util.List;
 
-    @Override
-    public UniversityClassDto apply(UniversityClass universityClass) {
-        return UniversityClassDto.builder()
-                .id(universityClass.getId())
-                .name(universityClass.getName())
-                .professor(universityClass.getProfessor())
-                .description(universityClass.getDescription())
-                .courseId(universityClass.getCourseId())
-                .build();
-    }
+@Mapper(componentModel = "spring")
+public interface UniversityClassMapper {
 
+    @Mapping(source = "universityClassName", target = "name")
+    UniversityClass toEntityFromRequest(UniversityClassRequest universityClassRequest);
+
+    @Mappings({
+            @Mapping(source = "name", target = "universityClassName"),
+            @Mapping(source = "id", target = "universityClassId")
+    })
+    UniversityClassDto toDtoFromEntity(UniversityClass universityClass);
+
+    List<UniversityClassDto> toDtoListFromEntityList(List<UniversityClass> universityClasses);
 }

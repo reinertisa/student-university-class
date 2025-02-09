@@ -2,9 +2,8 @@ package com.reinertisa.su.controller;
 
 import com.reinertisa.su.model.UniversityClassDto;
 import com.reinertisa.su.model.UniversityClassRequest;
-import com.reinertisa.su.service.UniversityClassServiceImpl;
+import com.reinertisa.su.service.UniversityClassService;
 import jakarta.validation.Valid;
-import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -13,12 +12,15 @@ import org.springframework.web.server.ResponseStatusException;
 import java.util.List;
 
 @RestController
-@RequiredArgsConstructor
 @RequestMapping(value = "/api/v1/universityClasses")
+@CrossOrigin(origins = "*")
 public class UniversityClassController {
 
-    private final UniversityClassServiceImpl universityClassService;
-    private final UniversityClassServiceImpl universityClassServiceImpl;
+    private final UniversityClassService universityClassService;
+
+    public UniversityClassController(UniversityClassService universityClassService) {
+        this.universityClassService = universityClassService;
+    }
 
     @GetMapping
     public ResponseEntity<List<UniversityClassDto>> getAllUniversityClasses() {
@@ -42,7 +44,7 @@ public class UniversityClassController {
     public ResponseEntity<UniversityClassDto> createUniversityClass(
             @Valid @RequestBody UniversityClassRequest universityClassRequest) {
         try {
-            UniversityClassDto universityClassDto = universityClassServiceImpl
+            UniversityClassDto universityClassDto = universityClassService
                     .createUniversityClass(universityClassRequest);
             return ResponseEntity.status(HttpStatus.CREATED).body(universityClassDto);
         } catch (Exception ex) {
@@ -54,7 +56,7 @@ public class UniversityClassController {
     public ResponseEntity<UniversityClassDto> updateUniversityClass(@PathVariable(name = "id") Long id,
                                             @Valid @RequestBody UniversityClassRequest universityClassRequest) {
         try {
-            UniversityClassDto universityClassDto = universityClassServiceImpl
+            UniversityClassDto universityClassDto = universityClassService
                     .updateUniversityClass(id, universityClassRequest);
             return ResponseEntity.status(HttpStatus.OK).body(universityClassDto);
         } catch (Exception ex) {
@@ -65,7 +67,7 @@ public class UniversityClassController {
     @DeleteMapping(value = "/{uid}")
     public ResponseEntity<Void> deleteUniversityClass(@PathVariable("uid") Long id) {
         try {
-            universityClassServiceImpl.deleteUniversityClass(id);
+            universityClassService.deleteUniversityClass(id);
             return ResponseEntity.status(HttpStatus.NO_CONTENT).body(null);
         } catch (Exception ex) {
             throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR, ex.getMessage(), ex);
