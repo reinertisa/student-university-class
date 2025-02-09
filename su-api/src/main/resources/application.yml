@@ -4,8 +4,7 @@ spring:
       enabled: true
   datasource:
     generate-unique-name: false
-    name: student
-    password: test1234
+    name: test
     username: test
   jpa:
     show-sql: true
