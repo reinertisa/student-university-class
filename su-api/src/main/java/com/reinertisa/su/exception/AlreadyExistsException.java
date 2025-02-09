@@ -1,10 +1,8 @@
 package com.reinertisa.su.exception;
 
-import lombok.Getter;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.ResponseStatus;
 
-@Getter
 @ResponseStatus(HttpStatus.CONFLICT)
 public class AlreadyExistsException extends Exception {
     private String fieldName;
@@ -19,6 +17,14 @@ public class AlreadyExistsException extends Exception {
 
     public AlreadyExistsException(String message, String fieldName) {
         super(message);
+        this.fieldName = fieldName;
+    }
+
+    public String getFieldName() {
+        return fieldName;
+    }
+
+    public void setFieldName(String fieldName) {
         this.fieldName = fieldName;
     }
 }
