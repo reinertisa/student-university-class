@@ -1,13 +1,10 @@
 package com.reinertisa.su.model;
 
 import jakarta.persistence.*;
-import lombok.*;
 
 import java.util.HashSet;
 import java.util.Set;
 
-@Data @Builder
-@AllArgsConstructor @NoArgsConstructor
 @Entity
 @Table(name = "students")
 public class Student {
@@ -26,9 +23,60 @@ public class Student {
     private String email;
 
     @ManyToMany(cascade = {CascadeType.DETACH, CascadeType.MERGE, CascadeType.PERSIST, CascadeType.REFRESH})
-    @JoinTable(name = "studentUniversityClassAssoc",
+    @JoinTable(
+            name = "studentUniversityClassAssoc",
             joinColumns = {@JoinColumn(name = "studentId")},
-            inverseJoinColumns = {@JoinColumn(name = "universityClassId")})
+            inverseJoinColumns = {@JoinColumn(name = "universityClassId")}
+    )
     private Set<UniversityClass> universityClasses = new HashSet<>();
 
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public String getStudentId() {
+        return studentId;
+    }
+
+    public void setStudentId(String studentId) {
+        this.studentId = studentId;
+    }
+
+    public String getEmail() {
+        return email;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
+    }
+
+    public Set<UniversityClass> getUniversityClasses() {
+        return universityClasses;
+    }
+
+    public void setUniversityClasses(Set<UniversityClass> universityClasses) {
+        this.universityClasses = universityClasses;
+    }
+
+    @Override
+    public String toString() {
+        return "Student{" +
+                "email='" + email + '\'' +
+                ", studentId='" + studentId + '\'' +
+                ", name='" + name + '\'' +
+                ", id=" + id +
+                '}';
+    }
 }
