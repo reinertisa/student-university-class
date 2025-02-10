@@ -39,6 +39,14 @@ public class UniversityClass {
         return students.remove(student);
     }
 
+    public boolean addAllStudents(Set<Student> students) {
+        return this.students.addAll(students);
+    }
+
+    public void removeAllStudents() {
+        students.clear();
+    }
+
     public Long getId() {
         return id;
     }

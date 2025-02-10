@@ -30,6 +30,22 @@ public class Student {
     )
     private Set<UniversityClass> universityClasses = new HashSet<>();
 
+    public boolean addUniversityClass(UniversityClass universityClass) {
+        return universityClasses.add(universityClass);
+    }
+
+    public boolean removeUniversityClass(UniversityClass universityClass) {
+        return universityClasses.remove(universityClass);
+    }
+
+    public boolean addUniversityClasses(Set<UniversityClass> universityClasses) {
+        return this.universityClasses.addAll(universityClasses);
+    }
+
+    public void removeAllUniversityClasses() {
+        universityClasses.clear();
+    }
+
     public Long getId() {
         return id;
     }
