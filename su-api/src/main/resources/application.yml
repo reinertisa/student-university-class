@@ -1,15 +1,40 @@
 spring:
-  h2:
-    console:
-      enabled: true
-  datasource:
-    generate-unique-name: false
-    name: test
-    username: test
+  application:
+    name: su-api
+
   jpa:
+    hibernate:
+      ddl-auto: create-drop
     show-sql: true
+    properties:
+      hibernate:
+        format_sql: true
+    database: postgresql
+  datasource:
+    url: jdbc:postgresql://localhost:5432/suc_db
+    username: suc_user
+    password: password
+    driver-class-name: org.postgresql.Driver
+  main:
+    banner-mode: off
+
+#  h2:
+#    console:
+#      enabled: true
+#  datasource:
+#    generate-unique-name: false
+#    name: test
+#    username: test
+#  jpa:
+#    show-sql: true
 
 server:
   error:
     include-message: always
     include-binding-errors: always
+  port: 8080
+logging:
+  level:
+    root: warn
+    org.hibernate.sql: trace
+    org.hibernate.orm.jdbc.bind: trace
