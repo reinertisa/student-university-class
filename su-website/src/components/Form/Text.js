@@ -48,3 +48,4 @@ export default function FormText({label, name, value, help, helpLink, readOnly =
         />
     );
 }
+FormText.propTypes = propTypes;
