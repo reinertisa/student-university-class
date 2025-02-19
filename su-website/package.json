@@ -4,19 +4,19 @@
   "private": true,
   "packageManager": "yarn@4.5.2",
   "dependencies": {
-    "@testing-library/jest-dom": "^5.14.1",
-    "@testing-library/react": "^13.0.0",
+    "@testing-library/jest-dom": "^6.6.3",
+    "@testing-library/react": "^16.2.0",
     "@testing-library/user-event": "^13.2.1",
     "bootstrap": "^5.3.3",
     "clsx": "^2.1.1",
     "lodash": "^4.17.21",
     "prop-types": "^15.8.1",
-    "react": "^18.3.1",
-    "react-dom": "^18.3.1",
-    "react-hook-form": "^7.53.2",
-    "react-router": "^7.1.5",
+    "react": "^19.0.0",
+    "react-dom": "^19.0.0",
+    "react-hook-form": "^7.54.2",
+    "react-router": "^7.2.0",
     "react-scripts": "5.0.1",
-    "web-vitals": "^2.1.0"
+    "web-vitals": "^4.2.4"
   },
   "scripts": {
     "start": "react-scripts start",
